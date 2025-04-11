@@ -61,4 +61,4 @@ Anda dapat mengubah berbagai aspek aplikasi dengan memodifikasi konstanta di awa
 
 ## Lisensi
 
-Proyek ini merupakan proyek pribadi dan ditujukan untuk penggunaan pribadi oleh Aira Jesslyn Seniara. Dilarang mendistribusikan tanpa izin. 
+Proyek ini merupakan proyek pribadi dan ditujukan untuk penggunaan pribadi. Dilarang mendistribusikan tanpa izin. 
