@@ -1,64 +1,88 @@
-# Aplikasi Pengingat Ulang Tahun dengan Gaya Pixel Art
+# Birthday Reminder Application
 
-Aplikasi pengingat ulang tahun bergaya pixel art untuk mengingat dan mengelola informasi ulang tahun orang-orang tersayang. Dibuat khusus untuk Aira Jesslyn Seniara.
+This birthday reminder application is specially designed to record and remind you of the birthdays of special people in your life. With an attractive pixel art style interface and automatic notifications, this application ensures you never forget to send your wishes to your loved ones.
 
-## Fitur
+## ✨ Main Features
 
-- ✨ Antarmuka bergaya pixel art dengan warna pastel yang menarik
-- 🎂 Menambah, mengedit, dan menghapus data ulang tahun
-- 🔔 Notifikasi sistem untuk ulang tahun yang akan datang
-- 📅 Tampilan daftar ulang tahun dengan warna yang menunjukkan kedekatan waktu
-- 🚀 Opsi untuk menjalankan aplikasi saat Windows startup
+- **Pixel Art Style Interface**: Attractive user interface with cute pixel art design
+- **Notification Reminders**: Automatic notifications for upcoming birthdays (7 days in advance)
+- **Birthday Calendar**: Visualization of birthdays in a monthly calendar view
+- **Animated Display**: Animated application title and real-time date display
+- **Data Management**: Easily add, edit, and delete birthday data
+- **Birthday Priority**: Mark important birthdays with high priority status
+- **Custom Notification Time**: Set specific times for birthday notifications
+- **Backup & Restore**: Export and import birthday data for backup
+- **Autostart**: Option to run the application automatically at Windows startup
 
-## Instalasi
+## 🔧 Additional Features
 
-1. Pastikan Python 3.6 atau yang lebih baru sudah terinstal di komputer Anda
-2. Clone atau download repository ini
-3. Instal dependensi yang dibutuhkan:
+- **Display Management**: Different colors for today's birthdays, this week's birthdays, and priority birthdays
+- **Automatic Calculation**: Automatically calculate age and remaining days
+- **Settings Tab**: Easy-to-use settings interface
+- **Special Emojis**: Special emojis for high-priority notifications
+
+## 📋 How to Use
+
+1. **Add Birthday**:
+   - Enter name, date of birth, notification time, and priority status
+   - Click "Save" to add to the database
+
+2. **Edit/Delete Birthday**:
+   - Select data from the table and click "Edit" or "Delete"
+   - For editing, change the necessary information and save changes
+
+3. **View Calendar**:
+   - Open the "Calendar" tab to see the monthly calendar view
+   - Birthdays are displayed in different colors on the calendar
+
+4. **Backup/Restore Data**:
+   - Use the "Export Data" button to save a backup
+   - Use the "Import Data" button to restore from a backup
+
+5. **Startup Settings**:
+   - Click "Run at Startup" to enable/disable autostart
+
+## 🛠️ Technical
+
+### Requirements
 
 ```
-pip install -r requirements.txt
+pillow==10.2.0
+win10toast==0.9
+tkcalendar==1.6.1
+pywin32==306
 ```
 
-4. Jalankan aplikasi:
+### Installation
 
-```
-python main.py
-```
+1. Make sure Python 3.7+ is installed on your system
+2. Install required packages: `pip install -r requirements.txt`
+3. Run the application: `python app.py`
 
-## Penggunaan
+### File Structure
 
-1. **Menambah Ulang Tahun**:
-   - Isi nama dan tanggal ulang tahun di form yang tersedia
-   - Klik tombol "Simpan" untuk menyimpan data
+- `app.py`: Main application file
+- `birthdays.json`: Birthday database (created automatically)
+- `cake_icon.ico`: Application icon (optional)
 
-2. **Mengedit Ulang Tahun**:
-   - Pilih data ulang tahun yang ingin diedit dari daftar
-   - Klik tombol "Edit" dan ubah informasi yang diinginkan
+## ⚠️ Attention
 
-3. **Menghapus Ulang Tahun**:
-   - Pilih data ulang tahun yang ingin dihapus dari daftar
-   - Klik tombol "Hapus" dan konfirmasi penghapusan
+This application is made specifically for personal use. Do not distribute it without permission. Please contact the developer if you need support or have questions.
 
-4. **Mengaktifkan Notifikasi saat Startup**:
-   - Klik tombol "Jalankan Saat Startup" untuk menambahkan aplikasi ke startup Windows
-   - Aplikasi akan berjalan otomatis saat Windows startup
+## 📝 Version Notes
 
-## Kustomisasi
+**Version 2.0:**
+- Added birthday priority feature
+- Added custom notification time settings
+- Added settings tab
+- Added data export/import feature
+- Added UI animation and real-time display
+- Improved notification system
+- Overall improvements to display and usability
 
-Anda dapat mengubah berbagai aspek aplikasi dengan memodifikasi konstanta di awal file `main.py`:
+**Version 1.0:**
+- Initial release with basic birthday reminder features
 
-- Ubah skema warna dengan mengganti nilai warna HEX
-- Ubah ukuran jendela dengan memodifikasi nilai WIDTH dan HEIGHT
-- Ubah gaya font dengan mengganti nilai FONT_STYLE
+---
 
-## Informasi Teknis
-
-- Bahasa: Python 3
-- UI Framework: Tkinter
-- Penyimpanan Data: JSON
-- Notifikasi: win10toast (Windows 10/11)
-
-## Lisensi
-
-Proyek ini merupakan proyek pribadi dan ditujukan untuk penggunaan pribadi. Dilarang mendistribusikan tanpa izin. 
+Made with ❤️ for Aira Jesslyn Seniara 

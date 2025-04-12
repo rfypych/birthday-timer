@@ -1,2 +1,4 @@
 pillow==10.2.0
-win10toast==0.9 
+win10toast==0.9
+tkcalendar==1.6.1
+pywin32==306 
