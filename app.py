@@ -38,7 +38,7 @@ else:
     ToastNotifier = None
 
 # Konstanta
-TITLE = "Birthday Timer"
+TITLE = "Birthday Countdown"
 WIDTH = 800
 HEIGHT = 650 # Tinggikan sedikit untuk status bar
 BG_COLOR = "#FFD1DC"  # Pink pastel
@@ -955,23 +955,70 @@ class BirthdayReminderApp:
         except Exception as e:
             print(f"Error saat menyesuaikan ukuran: {str(e)}")
 
+
+
     def create_ui(self):
         main_container = tk.Frame(self.root, bg=BG_COLOR, padx=20, pady=20)
         main_container.pack(fill=tk.BOTH, expand=True)
         main_container.rowconfigure(2, weight=1) # Row untuk notebook (diubah indexnya)
         main_container.columnconfigure(0, weight=1)
 
-        # Header label
+        # Header frame untuk judul dan subtitle
         header_frame = tk.Frame(main_container, bg=BG_COLOR, pady=10)
         header_frame.grid(row=0, column=0, sticky="ew")
-        header_decoration = tk.Label(header_frame, text="🎂 🎈 🎁", font=(FONT_STYLE, 24), bg=BG_COLOR, fg="#FF6B6B")
-        header_decoration.pack(pady=(0, 5))
-        subtitle_decoration = tk.Label(header_frame, textvariable=self.subtitle_var, font=(FONT_STYLE, 16), bg=BG_COLOR, fg=TEXT_COLOR)
-        subtitle_decoration.pack(pady=(0, 5))
 
-        # Judul dengan animasi
-        self.title_label = tk.Label(header_frame, text="✨ Birthday Timer ✨", font=(FONT_STYLE, 28, "bold"), bg=BG_COLOR, fg=TEXT_COLOR)
-        self.title_label.pack(pady=(10, 0))
+        # Frame untuk judul dan GIF kue
+        title_container = tk.Frame(header_frame, bg=BG_COLOR)
+        title_container.pack(fill=tk.X)
+
+        try:
+            # Buka file GIF
+            cake_gif = Image.open("cake.gif")
+
+            # Ukuran GIF yang diinginkan
+            gif_width, gif_height = 40, 40  # Ukuran lebih kecil untuk emoji
+
+            # Buat list untuk menyimpan frame GIF
+            self.cake_frames = []
+
+            # Iterasi melalui semua frame GIF
+            for frame in ImageSequence.Iterator(cake_gif):
+                # Resize frame
+                resized_frame = frame.copy().resize((gif_width, gif_height), Image.LANCZOS)
+                # Konversi ke PhotoImage
+                photo_frame = ImageTk.PhotoImage(resized_frame)
+                # Tambahkan ke list
+                self.cake_frames.append(photo_frame)
+
+            # Buat frame untuk menampung judul dan GIF agar lebih rapat
+            title_inner_frame = tk.Frame(title_container, bg=BG_COLOR)
+            title_inner_frame.pack(expand=True, pady=(10, 5))
+
+            # Buat label untuk menampilkan GIF di kiri judul
+            self.cake_label_left = tk.Label(title_inner_frame, bg=BG_COLOR)
+            self.cake_label_left.pack(side=tk.LEFT, padx=(0, 2))
+
+            # Judul di tengah dengan warna baru
+            self.title_label = tk.Label(title_inner_frame, text="Birthday Countdown", font=(FONT_STYLE, 28, "bold"), bg=BG_COLOR, fg="#FF6B8B")
+            self.title_label.pack(side=tk.LEFT)
+
+            # Buat label untuk menampilkan GIF di kanan judul
+            self.cake_label_right = tk.Label(title_inner_frame, bg=BG_COLOR)
+            self.cake_label_right.pack(side=tk.LEFT, padx=(2, 0))
+
+            # Mulai animasi GIF
+            self.animate_gif(0)
+        except Exception as e:
+            print(f"Error saat memuat GIF kue: {e}")
+            # Fallback jika GIF tidak dapat dimuat
+            title_inner_frame = tk.Frame(title_container, bg=BG_COLOR)
+            title_inner_frame.pack(expand=True, pady=(10, 5))
+            self.title_label = tk.Label(title_inner_frame, text="✨ Birthday Countdown ✨", font=(FONT_STYLE, 28, "bold"), bg=BG_COLOR, fg="#FF6B8B")
+            self.title_label.pack()
+
+        # Subtitle di bawah judul
+        subtitle_decoration = tk.Label(header_frame, textvariable=self.subtitle_var, font=(FONT_STYLE, 16), bg=BG_COLOR, fg=TEXT_COLOR)
+        subtitle_decoration.pack(pady=(5, 10))
 
         # Today's Date Label
         self.date_label = tk.Label(header_frame, text=f"{time.strftime('%A, %d %B %Y')}", font=(FONT_STYLE, 14), bg=BG_COLOR, fg=TEXT_COLOR)
@@ -1262,6 +1309,7 @@ Konstanta Warna:
         """Membuat tab testing untuk pengujian fitur aplikasi."""
         test_container = self.testing_tab
         test_container.columnconfigure(0, weight=1)
+        test_container.rowconfigure(1, weight=1)  # Beri bobot pada row konten utama
 
         # Frame untuk judul
         title_border = tk.Frame(test_container, bg="#000000", bd=2, relief=tk.RAISED)
@@ -1271,9 +1319,28 @@ Konstanta Warna:
         title_label = tk.Label(title_frame, text="Menu Testing", font=(FONT_STYLE, 18, "bold"), bg=BG_COLOR, fg=TEXT_COLOR)
         title_label.pack()
 
+        # Buat canvas dan scrollbar untuk konten yang bisa di-scroll
+        canvas_container = tk.Frame(test_container, bg=BG_COLOR)
+        canvas_container.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        canvas_container.rowconfigure(0, weight=1)
+        canvas_container.columnconfigure(0, weight=1)
+
+        # Canvas untuk konten yang bisa di-scroll
+        canvas = tk.Canvas(canvas_container, bg=BG_COLOR, highlightthickness=0)
+        canvas.grid(row=0, column=0, sticky="nsew")
+
+        # Scrollbar untuk canvas
+        scrollbar = ttk.Scrollbar(canvas_container, orient="vertical", command=canvas.yview)
+        scrollbar.grid(row=0, column=1, sticky="ns")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        # Frame untuk konten di dalam canvas
+        content_frame = tk.Frame(canvas, bg=BG_COLOR)
+        canvas_window = canvas.create_window((0, 0), window=content_frame, anchor="nw")
+
         # Frame untuk tombol-tombol test
-        test_border = tk.Frame(test_container, bg="#000000", bd=2, relief=tk.RAISED)
-        test_border.grid(row=1, column=0, sticky="nsew", padx=5, pady=5)
+        test_border = tk.Frame(content_frame, bg="#000000", bd=2, relief=tk.RAISED)
+        test_border.pack(fill=tk.X, expand=True, padx=5, pady=5)
         test_frame = tk.Frame(test_border, bg=ACCENT_COLOR, padx=20, pady=20)
         test_frame.pack(fill=tk.BOTH, expand=True, padx=2, pady=2)
 
@@ -1302,8 +1369,8 @@ Konstanta Warna:
         sound_test_btn.pack(pady=10)
 
         # Deskripsi pengujian
-        desc_frame = tk.Frame(test_container, bg=BG_COLOR, pady=10)
-        desc_frame.grid(row=2, column=0, sticky="ew", padx=5)
+        desc_frame = tk.Frame(content_frame, bg=BG_COLOR, pady=10)
+        desc_frame.pack(fill=tk.X, padx=5, pady=5)
         desc_text = """Fitur Testing memungkinkan Anda menguji:
 - Sistem notifikasi desktop
 - Validasi input data ulang tahun
@@ -1312,6 +1379,41 @@ Konstanta Warna:
         desc_label = tk.Label(desc_frame, text=desc_text, font=(FONT_STYLE, 12),
                             bg=BG_COLOR, fg=TEXT_COLOR, justify=tk.LEFT)
         desc_label.pack()
+
+        # Fungsi untuk mengatur ukuran canvas
+        def configure_canvas(event):
+            canvas.configure(scrollregion=canvas.bbox("all"))
+            canvas.itemconfig(canvas_window, width=event.width)
+
+        # Fungsi untuk scroll dengan mouse wheel
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+
+        # Fungsi untuk menangani enter dan leave mouse pada canvas
+        def _bind_mousewheel(event):
+            # Bind mouse wheel saat mouse masuk ke area canvas
+            canvas.bind_all("<MouseWheel>", _on_mousewheel)  # Windows
+            canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # Linux
+            canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))  # Linux
+
+        def _unbind_mousewheel(event):
+            # Unbind mouse wheel saat mouse keluar dari area canvas
+            canvas.unbind_all("<MouseWheel>")
+            canvas.unbind_all("<Button-4>")
+            canvas.unbind_all("<Button-5>")
+
+        # Bind event untuk mengatur ukuran canvas dan mouse wheel
+        canvas.bind("<Configure>", configure_canvas)
+
+        # Bind mouse enter dan leave events
+        canvas.bind("<Enter>", _bind_mousewheel)
+        canvas.bind("<Leave>", _unbind_mousewheel)
+        content_frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Bind mouse wheel awal
+        canvas.bind_all("<MouseWheel>", _on_mousewheel)  # Windows
+        canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # Linux
+        canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))  # Linux
 
     def create_list_tab(self):
         """Membuat tab daftar ulang tahun"""
@@ -1932,14 +2034,29 @@ Konstanta Warna:
 
         # Bind event untuk mengatur ukuran canvas dan mouse wheel
         canvas.bind("<Configure>", configure_canvas)
+
+        # Fungsi untuk menangani enter dan leave mouse pada canvas
+        def _bind_mousewheel(event):
+            # Bind mouse wheel saat mouse masuk ke area canvas
+            canvas.bind_all("<MouseWheel>", _on_mousewheel)  # Windows
+            canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # Linux
+            canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))  # Linux
+
+        def _unbind_mousewheel(event):
+            # Unbind mouse wheel saat mouse keluar dari area canvas
+            canvas.unbind_all("<MouseWheel>")
+            canvas.unbind_all("<Button-4>")
+            canvas.unbind_all("<Button-5>")
+
+        # Bind mouse enter dan leave events
+        canvas.bind("<Enter>", _bind_mousewheel)
+        canvas.bind("<Leave>", _unbind_mousewheel)
+        settings_content.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
+
+        # Bind mouse wheel awal
         canvas.bind_all("<MouseWheel>", _on_mousewheel)  # Windows
         canvas.bind_all("<Button-4>", lambda e: canvas.yview_scroll(-1, "units"))  # Linux
         canvas.bind_all("<Button-5>", lambda e: canvas.yview_scroll(1, "units"))  # Linux
-        settings_content.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
-
-
-
-
 
         # --- Pengaturan Data ---
         data_frame = tk.Frame(settings_content, bg=ACCENT_COLOR, pady=10)
@@ -2476,6 +2593,24 @@ Konstanta Warna:
                 messagebox.showinfo(_("info"), _("sound_not_supported"))
         except Exception as e:
             messagebox.showerror(_("error"), _("error_sound", error=str(e)))
+
+    def animate_gif(self, frame_idx):
+        """Menganimasikan GIF kue"""
+        try:
+            if hasattr(self, 'cake_frames') and self.cake_frames:
+                # Update frame pada kedua label
+                if hasattr(self, 'cake_label_left'):
+                    self.cake_label_left.configure(image=self.cake_frames[frame_idx])
+                if hasattr(self, 'cake_label_right'):
+                    self.cake_label_right.configure(image=self.cake_frames[frame_idx])
+
+                # Hitung frame berikutnya
+                next_frame = (frame_idx + 1) % len(self.cake_frames)
+
+                # Jadwalkan update frame berikutnya (100ms per frame)
+                self.root.after(100, self.animate_gif, next_frame)
+        except Exception as e:
+            print(f"Error saat menganimasikan GIF: {e}")
 
 if __name__ == "__main__":
     try:
