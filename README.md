@@ -85,4 +85,4 @@ This application is made specifically for personal use. Do not distribute it wit
 
 ---
 
-Made with ❤️ for Aira Jesslyn Seniara 
+Made with ❤️ for Someone
