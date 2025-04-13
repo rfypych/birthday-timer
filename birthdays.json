@@ -1,10 +1,11 @@
 [
     {
         "id": 1,
-        "name": "Aira Jesslyn Seniara",
+        "name": "test",
         "date": "04/05/2005",
         "priority": false,
         "time": "00:00"
+<<<<<<< HEAD
     },
     {
         "id": 2,
@@ -26,5 +27,7 @@
         "date": "14/04/2000",
         "time": "00:00",
         "priority": true
+=======
+>>>>>>> 5eaa6e23dc8db605082c9ace5af3d73302a0981b
     }
 ]
