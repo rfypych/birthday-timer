@@ -3,7 +3,7 @@
         "id": 1,
         "name": "Aira Jesslyn Seniara",
         "date": "04/05/2005",
-        "priority": false,
+        "priority": true,
         "time": "00:00"
     },
     {
@@ -18,6 +18,6 @@
         "name": "tes1",
         "date": "12/04/2002",
         "time": "17:58",
-        "priority": true
+        "priority": false
     }
 ]
