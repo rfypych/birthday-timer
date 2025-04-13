@@ -1,23 +1,9 @@
 [
     {
         "id": 1,
-        "name": "Aira Jesslyn Seniara",
+        "name": "test",
         "date": "04/05/2005",
         "priority": true,
         "time": "00:00"
-    },
-    {
-        "id": 2,
-        "name": "tes",
-        "date": "12/05/2009",
-        "time": "12:10",
-        "priority": false
-    },
-    {
-        "id": 3,
-        "name": "tes1",
-        "date": "12/04/2002",
-        "time": "17:58",
-        "priority": false
     }
 ]
